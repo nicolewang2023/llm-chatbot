@@ -1,0 +1,52 @@
+"""
+Author: Nicole Wang
+Date: March 2022
+
+This script analyzes the relationship between Reddit mentions and cryptocurrency price changes.
+"""
+
+import re
+import random
+
+# Define a dictionary of response patterns and their corresponding replies
+response_patterns = {
+    r"My name is (\w+)": "Nice to meet you \1. How are you feeling today?",
+    r"(\w+) feel (\w+)": "Help me to understand why you feel \2?",
+    r"But (\w+) feel (\w+)": "It's okay to feel \2. Maybe some classical music would help?",
+    r"(\w+) like (\w+)": "I'm glad you like \2. Here, I got it.",
+    r"(\w+) hate (\w+)": "I'm sorry you hate \2. Let's try something else. How about some acoustic music?",
+    r"(yes|yea|sure)": "Great! There you go.",
+    r"(no|nope|I'm good)": "Okay. Let's try something else. How about journaling?",
+    r"You know?": "I understand your feelings. What can I do to make you feel better?",
+    r"(suicide|kill|hurt)": "There is hope. Do not give up! I'm always here. If you incur emergency, please dial 911.",
+    r"Nobody like (\w+)": "I understand. But you should know that you are always important to me.",
+    r"(\w+) feel better": "I'm glad to help. Remember, no matter what happens, I'm always by your side.",
+    r"Thank you": "No problem. Remember, no matter what happens, I'm always by your side.",
+    r"Do you know (\w+)": "That's my unknown region. But tell me more about \1.",
+    r"it's about (\w+)": "I'm listening. What about \1?",
+    r"Do you understand (\w+)": "I hear you about \1! 100 percent. I always want to know more about you.",
+    r"Bye": "Bye! It was nice talking to you. I hope you have a great day.",
+    r"I usually (\w+) and (\w+)": "That's interesting. Elaborate more on \1 and \2.",
+    r"Because (\w+) (\w+)": "I love that you mention your reason of \1 \2. Can you give me an example?",
+    r"Can you (\w+)\??": "\1? Of course. Here you go."
+}
+
+# Function to find matching patterns in the user input
+def find_patterns(response):
+    matched_patterns = [pattern for pattern in response_patterns if re.search(pattern, response, re.IGNORECASE)]
+    return matched_patterns
+
+# Function to select an appropriate response
+def pick_response(response):
+    matched_patterns = find_patterns(response)
+    
+    if not matched_patterns:
+        return "I don't quite understand. Could you tell me more?"
+    
+    chosen_pattern = random.choice(matched_patterns)  # Pick a random matching pattern
+    return re.sub(chosen_pattern, response_patterns[chosen_pattern], response)
+
+# Example usage
+user_input = "My name is Alex."
+response = pick_response(user_input)
+print(response)
