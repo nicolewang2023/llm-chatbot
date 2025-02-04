@@ -2,7 +2,7 @@
 Author: Nicole Wang
 Date: March 2022
 
-This script analyzes the relationship between Reddit mentions and cryptocurrency price changes.
+This script builds a simple therapy chatbot.
 """
 
 import re
